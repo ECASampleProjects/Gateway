@@ -1,0 +1,43 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: payment
+          uri: lb://PAYMENT
+          predicates:
+            - Path=/payment/**
+          #filters:
+          #  - AuthenticationFilter
+
+
+        - id: reporting-and-billing
+          uri: lb://REPORTING-AND-BILLING
+          predicates:
+            - Path=/billing/**
+          #filters:
+          #  - AuthenticationFilter
+
+        - id: identity-service
+          uri: lb://IDENTITY-SERVICE
+          predicates:
+            - Path=/auth/**
+      discovery:
+        locator:
+          enabled: true
+
+  application:
+    name: APARTMENT-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+
+  instance:
+    prefer-ip-address : true
+
+server:
+  port : 8080
+
+
+
