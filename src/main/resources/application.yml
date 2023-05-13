@@ -7,20 +7,39 @@ spring:
           predicates:
             - Path=/payment/**
           filters:
+            - LoggingFilter
             - AuthenticationFilter
-
 
         - id: reporting-and-billing
           uri: lb://REPORTING-AND-BILLING
           predicates:
             - Path=/billing/**
           filters:
+            - LoggingFilter
             - AuthenticationFilter
 
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user/**,/auth/**,/flat/**
+          filters:
+            - LoggingFilter
+
+        - id: visitor-service
+          uri: lb://VISITOR-SERVICE
+          predicates:
+            - Path=/visitor/**
+          filters:
+            - LoggingFilter
+            - AuthenticationFilter
+
+        - id: amenity-and-booking-service
+          uri: lb://AMENITY-AND-BOOKING-SERVICE
+          predicates:
+            - Path=/visitor/**
+          filters:
+            - LoggingFilter
+            - AuthenticationFilter
 
       discovery:
         locator:
