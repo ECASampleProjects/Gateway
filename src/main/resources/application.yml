@@ -6,27 +6,35 @@ spring:
           uri: lb://PAYMENT
           predicates:
             - Path=/payment/**
-          #filters:
-          #  - AuthenticationFilter
+          filters:
+            - AuthenticationFilter
 
 
         - id: reporting-and-billing
           uri: lb://REPORTING-AND-BILLING
           predicates:
             - Path=/billing/**
-          #filters:
-          #  - AuthenticationFilter
+          filters:
+            - AuthenticationFilter
 
-        - id: identity-service
-          uri: lb://IDENTITY-SERVICE
+        - id: user-service
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/auth/**
+            - Path=/user/**,/auth/**
+
       discovery:
         locator:
           enabled: true
 
   application:
     name: APARTMENT-GATEWAY
+
+  zipkin:
+    base-url: http://localhost:9411
+
+  sleuth:
+    sampler:
+      probability: 1.0
 
 eureka:
   client:
@@ -38,6 +46,3 @@ eureka:
 
 server:
   port : 8080
-
-
-
